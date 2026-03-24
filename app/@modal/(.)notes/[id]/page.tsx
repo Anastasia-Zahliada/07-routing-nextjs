@@ -1,4 +1,4 @@
-import NotePreviewModal from '@/components/NotePreview/NotePreviewModal'
+import NotePreviewClient from './NotePreview.client'
 
 interface NotePreviewModalPageProps {
   params: Promise<{
@@ -11,5 +11,5 @@ export default async function NotePreviewModalPage({
 }: NotePreviewModalPageProps) {
   const { id } = await params
 
-  return <NotePreviewModal id={id} />
+  return <NotePreviewClient id={id} />
 }

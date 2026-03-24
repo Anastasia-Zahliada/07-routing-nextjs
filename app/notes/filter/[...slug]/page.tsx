@@ -6,7 +6,7 @@ import {
 import { notFound } from 'next/navigation'
 import { fetchNotes } from '@/lib/api/notes'
 import { NOTE_TAGS, type NoteTag } from '@/types/note'
-import NotesClient from '../../Notes.client'
+import NotesClient from './Notes.client'
 
 const PER_PAGE = 12
 
