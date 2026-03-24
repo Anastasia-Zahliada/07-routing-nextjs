@@ -1,14 +1,14 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { useParams } from 'next/navigation'
 import { fetchNoteById } from '@/lib/api/notes'
-import css from './NoteDetails.module.css'
+import css from './NotePreview.module.css'
 
-export default function NoteDetailsClient() {
-  const params = useParams<{ id: string }>()
-  const id = params.id
+interface NotePreviewProps {
+  id: string
+}
 
+export default function NotePreview({ id }: NotePreviewProps) {
   const {
     data: note,
     isLoading,

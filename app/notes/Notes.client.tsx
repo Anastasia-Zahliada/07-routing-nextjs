@@ -7,12 +7,17 @@ import NoteForm from '@/components/NoteForm/NoteForm'
 import NoteList from '@/components/NoteList/NoteList'
 import Pagination from '@/components/Pagination/Pagination'
 import SearchBox from '@/components/SearchBox/SearchBox'
-import { fetchNotes } from '@/lib/api'
+import { fetchNotes } from '@/lib/api/notes'
+import type { NoteTag } from '@/types/note'
 import css from './NotesPage.module.css'
 
 const PER_PAGE = 12
 
-export default function NotesClient() {
+interface NotesClientProps {
+  tag?: NoteTag
+}
+
+export default function NotesClient({ tag }: NotesClientProps) {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [inputValue, setInputValue] = useState('')
@@ -28,8 +33,8 @@ export default function NotesClient() {
   }, [inputValue])
 
   const { data, isPending, isError, isFetching } = useQuery({
-    queryKey: ['notes', page, search],
-    queryFn: () => fetchNotes({ page, perPage: PER_PAGE, search }),
+    queryKey: ['notes', page, search, tag ?? 'all'],
+    queryFn: () => fetchNotes({ page, perPage: PER_PAGE, search, tag }),
     placeholderData: keepPreviousData,
   })
 

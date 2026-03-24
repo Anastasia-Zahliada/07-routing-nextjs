@@ -1,31 +1,12 @@
-import axios from 'axios'
 import type { AxiosResponse } from 'axios'
+import { notehubApi, getHeaders } from './client'
 import type { Note, NoteTag } from '@/types/note'
-
-const API_URL = 'https://notehub-public.goit.study/api'
-
-const notehubApi = axios.create({
-  baseURL: API_URL,
-})
-
-const getToken = () => {
-  const token = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN
-
-  if (!token) {
-    throw new Error('Missing NEXT_PUBLIC_NOTEHUB_TOKEN environment variable')
-  }
-
-  return token
-}
-
-const getHeaders = () => ({
-  Authorization: `Bearer ${getToken()}`,
-})
 
 export interface FetchNotesParams {
   page: number
   perPage: number
   search?: string
+  tag?: NoteTag
 }
 
 export interface FetchNotesResponse {
@@ -52,6 +33,7 @@ export const fetchNotes = async ({
   page,
   perPage,
   search,
+  tag,
 }: FetchNotesParams): Promise<FetchNotesResponse> => {
   const response: AxiosResponse<FetchNotesResponse> =
     await notehubApi.get<FetchNotesResponse>('/notes', {
@@ -60,6 +42,7 @@ export const fetchNotes = async ({
         page,
         perPage,
         ...(search ? { search } : {}),
+        ...(tag ? { tag } : {}),
       },
     })
 
